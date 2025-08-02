@@ -1,0 +1,23 @@
+@import url("./fonts.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    ::selection {
+        @apply bg-black text-white;
+    }
+    
+    ::-moz-selection {
+        @apply bg-black text-white;
+    }
+    
+    .dark ::selection {
+        @apply bg-neutral-200 text-black;
+    }
+    
+    .dark ::-moz-selection {
+        @apply bg-neutral-200 text-black;
+    }
+}

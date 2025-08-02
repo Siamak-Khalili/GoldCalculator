@@ -1,0 +1,12 @@
+{
+  "name": "goldcalculator",
+  "version": "1.0.0",
+  "description": "Gold Price Calculator with Dark Mode",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/css/tailwind.css -o ./public/build/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoldcalCulator</title>
+    <link rel="stylesheet" href="/public/build/tailwind.css" />
+  </head>
+  <body class="bg-neutral-50 dark:bg-black">
+    <header
+      class="container max-w-screen-lg mx-auto px-6 py-4 flex items-center justify-between relative z-20">
+      <!-- Navigation -->
+      <nav
+        id="nav-menu"
+        class="hidden md:flex md:gap-3 fixed md:static inset-x-0 bottom-0 top-16 md:top-auto bg-white dark:bg-black border-t md:border-t-0 border-neutral-200 dark:border-neutral-600 md:bg-transparent md:dark:bg-transparent transition-transform duration-300 translate-y-full md:translate-y-0 px-6 md:px-0">
+        <ul class="flex flex-col md:flex-row gap-3 py-6">
+          <li
+            class="text-neutral-500 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-900 bg-transparent hover:text-neutral-900 py-1.5 px-2 text-sm rounded-md cursor-pointer"
+            id="nav-gold-price">
+            قیمت طلا
+          </li>
+          <li
+            class="text-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-900 bg-neutral-200 dark:bg-neutral-900 py-1.5 px-2 text-sm rounded-md cursor-pointer"
+            id="nav-calculator">
+            محاسبه قیمت طلا
+          </li>
+          <li
+            class="text-neutral-500 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-900 bg-transparent hover:text-neutral-900 py-1.5 px-2 text-sm rounded-md cursor-pointer"
+            id="nav-rules">
+            قوانین و تعرفه‌ها
+          </li>
+          <li
+            class="text-neutral-500 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-900 bg-transparent hover:text-neutral-900 py-1.5 px-2 text-sm rounded-md cursor-pointer"
+            id="nav-contact">
+            ارتباط با ما
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none border border-neutral-200 dark:border-neutral-600 rounded-full relative"
+        aria-label="Toggle menu">
+        <span
+          class="block w-3.5 h-0.5 bg-neutral-900 dark:bg-neutral-100 transition-all duration-300 origin-center"></span>
+        <span
+          class="block w-3.5 h-0.5 bg-neutral-900 dark:bg-neutral-100 transition-all duration-300 origin-center"></span>
+      </button>
+
+      <div class="flex gap-4 items-center">
+        <!-- Language Selector -->
+        <div class="relative" id="lang-dropdown">
+          <select id="lang-select" class="sr-only">
+            <option value="fa" selected>فارسی</option>
+            <option value="en">English</option>
+          </select>
+
+          <!-- Custom dropdown button -->
+          <button
+            id="lang-dropdown-button"
+            type="button"
+            class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 py-1.5 px-3 w-28 flex items-center justify-between rounded-full focus:outline-none focus:border-black dark:focus:border-neutral-400 cursor-pointer text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800"
+            aria-haspopup="true"
+            aria-expanded="false">
+            <span id="lang-dropdown-text" class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M7 2a1 1 0 011 1v1h3a1 1 0 110 2H9.578a18.87 18.87 0 01-1.724 4.78c.29.354.596.696.914 1.026a1 1 0 11-1.44 1.389c-.188-.196-.373-.396-.554-.6a19.098 19.098 0 01-3.107 3.567 1 1 0 01-1.334-1.49 17.087 17.087 0 003.13-3.733 18.992 18.992 0 01-1.487-2.494 1 1 0 111.79-.89c.234.47.489.928.764 1.372.417-.934.752-1.913.997-2.927H3a1 1 0 110-2h3V3a1 1 0 011-1zm6 6a1 1 0 01.894.553l2.991 5.982a.869.869 0 01.02.037l.99 1.98a1 1 0 11-1.79.895L15.383 16h-4.764l-.724 1.447a1 1 0 11-1.788-.894l.99-1.98.019-.038 2.99-5.982A1 1 0 0113 8zm-1.382 6h2.764L13 12.236 11.618 14z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              فارسی
+            </span>
+            <svg
+              id="lang-dropdown-arrow"
+              class="w-4 h-4 text-neutral-900 dark:text-neutral-100 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            id="lang-dropdown-menu"
+            class="absolute top-full mt-1 w-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 z-50"
+            role="menu">
+            <div class="py-1">
+              <button
+                type="button"
+                class="lang-option w-full px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center gap-2 transition-colors"
+                data-value="fa"
+                role="menuitem">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M7 2a1 1 0 011 1v1h3a1 1 0 110 2H9.578a18.87 18.87 0 01-1.724 4.78c.29.354.596.696.914 1.026a1 1 0 11-1.44 1.389c-.188-.196-.373-.396-.554-.6a19.098 19.098 0 01-3.107 3.567 1 1 0 01-1.334-1.49 17.087 17.087 0 003.13-3.733 18.992 18.992 0 01-1.487-2.494 1 1 0 111.79-.89c.234.47.489.928.764 1.372.417-.934.752-1.913.997-2.927H3a1 1 0 110-2h3V3a1 1 0 011-1zm6 6a1 1 0 01.894.553l2.991 5.982a.869.869 0 01.02.037l.99 1.98a1 1 0 11-1.79.895L15.383 16h-4.764l-.724 1.447a1 1 0 11-1.788-.894l.99-1.98.019-.038 2.99-5.982A1 1 0 0113 8zm-1.382 6h2.764L13 12.236 11.618 14z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                فارسی
+                <svg
+                  class="w-4 h-4 ml-auto text-green-500 opacity-100"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="lang-option w-full px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center gap-2 transition-colors"
+                data-value="en"
+                role="menuitem">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M7 2a1 1 0 011 1v1h3a1 1 0 110 2H9.578a18.87 18.87 0 01-1.724 4.78c.29.354.596.696.914 1.026a1 1 0 11-1.44 1.389c-.188-.196-.373-.396-.554-.6a19.098 19.098 0 01-3.107 3.567 1 1 0 01-1.334-1.49 17.087 17.087 0 003.13-3.733 18.992 18.992 0 01-1.487-2.494 1 1 0 111.79-.89c.234.47.489.928.764 1.372.417-.934.752-1.913.997-2.927H3a1 1 0 110-2h3V3a1 1 0 011-1zm6 6a1 1 0 01.894.553l2.991 5.982a.869.869 0 01.02.037l.99 1.98a1 1 0 11-1.79.895L15.383 16h-4.764l-.724 1.447a1 1 0 11-1.788-.894l.99-1.98.019-.038 2.99-5.982A1 1 0 0113 8zm-1.382 6h2.764L13 12.236 11.618 14z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                English
+                <svg
+                  class="w-4 h-4 ml-auto text-green-500 opacity-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Theme Switcher -->
+        <fieldset
+          class="theme-switcher flex items-center bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-full gap-1"
+          data-small="">
+          <legend class="sr-only">Select a display theme:</legend>
+
+          <!-- System Theme -->
+          <span class="relative">
+            <input
+              aria-label="system"
+              type="radio"
+              value="system"
+              name="theme"
+              id="theme-switch-system"
+              class="sr-only peer" />
+            <label
+              for="theme-switch-system"
+              class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer peer-checked:bg-neutral-200 dark:peer-checked:bg-black dark:peer-checked:border-l dark:peer-checked:border-neutral-700">
+              <span class="sr-only">system</span>
+              <svg
+                data-testid="geist-icon"
+                height="16"
+                stroke-linejoin="round"
+                viewBox="0 0 16 16"
+                width="16"
+                class="text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M0.5 3.25C0.5 1.45507 1.95507 0 3.75 0H8.25C10.0449 0 11.5 1.45507 11.5 3.25V11.25V12H10.75H1.25H0.5V11.25V3.25ZM3.75 1.5C2.7835 1.5 2 2.2835 2 3.25V10.5H10V3.25C10 2.2835 9.2165 1.5 8.25 1.5H3.75ZM3 3.5C3 2.94772 3.44772 2.5 4 2.5H8C8.55228 2.5 9 2.94772 9 3.5V7H3V3.5ZM6.5 9.5H9V8H6.5V9.5Z"
+                  fill="currentColor"
+                  transform="translate(2.5, 2)"></path>
+              </svg>
+            </label>
+          </span>
+
+          <!-- Light Theme -->
+          <span class="relative">
+            <input
+              aria-label="light"
+              type="radio"
+              value="light"
+              name="theme"
+              id="theme-switch-light"
+              class="sr-only peer" />
+            <label
+              for="theme-switch-light"
+              class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer hover:bg-white dark:hover:bg-neutral-700 peer-checked:bg-white peer-checked:shadow peer-checked:border peer-checked:border-neutral-200 dark:peer-checked:bg-neutral-600">
+              <span class="sr-only">light</span>
+              <svg
+                data-testid="geist-icon"
+                height="16"
+                stroke-linejoin="round"
+                viewBox="0 0 16 16"
+                width="16"
+                class="text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M7.75 1V0.25H6.25V1V1.25V2H7.75V1.25V1ZM7 9C8.10457 9 9 8.10457 9 7C9 5.89543 8.10457 5 7 5C5.89543 5 5 5.89543 5 7C5 8.10457 5.89543 9 7 9ZM7 10.5C8.933 10.5 10.5 8.933 10.5 7C10.5 5.067 8.933 3.5 7 3.5C5.067 3.5 3.5 5.067 3.5 7C3.5 8.933 5.067 10.5 7 10.5ZM7.75 12V12.75V13V13.75H6.25V13V12.75V12H7.75ZM12 6.25H12.75H13H13.75V7.75H13H12.75H12V6.25ZM1 6.25H0.25V7.75H1H1.25H2V6.25H1.25H1ZM10.0052 2.93414L10.5355 2.40381L10.7123 2.22703L11.2426 1.6967L12.3033 2.75736L11.773 3.28769L11.5962 3.46447L11.0659 3.9948L10.0052 2.93414ZM2.22703 10.7123L1.6967 11.2426L2.75736 12.3033L3.28769 11.773L3.46447 11.5962L3.9948 11.0659L2.93414 10.0052L2.40381 10.5355L2.22703 10.7123ZM2.93414 3.9948L2.40381 3.46447L2.22703 3.28769L1.6967 2.75736L2.75736 1.6967L3.28769 2.22703L3.46447 2.40381L3.9948 2.93414L2.93414 3.9948ZM10.7123 11.773L11.2426 12.3033L12.3033 11.2426L11.773 10.7123L11.5962 10.5355L11.0659 10.0052L10.0052 11.0659L10.5355 11.5962L10.7123 11.773Z"
+                  fill="currentColor"
+                  transform="translate(1.25, 1.25)"></path>
+              </svg>
+            </label>
+          </span>
+
+          <!-- Dark Theme -->
+          <span class="relative">
+            <input
+              aria-label="dark"
+              type="radio"
+              value="dark"
+              name="theme"
+              id="theme-switch-dark"
+              class="sr-only peer" />
+            <label
+              for="theme-switch-dark"
+              class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer peer-checked:bg-neutral-200 dark:peer-checked:bg-black dark:peer-checked:border-r dark:peer-checked:border-neutral-700">
+              <span class="sr-only">dark</span>
+              <svg
+                data-testid="geist-icon"
+                height="16"
+                stroke-linejoin="round"
+                viewBox="0 0 16 16"
+                width="16"
+                class="text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.5 0.25V1V1.5H11L11.75 1.5V3H11H10.5V3.5V4.25H9V3.5V3H8.5H7.75V1.5H8.5H9V1V0.25H10.5ZM3.25514 2.75496C2.33413 3.53491 1.75 4.69972 1.75 6C1.75 8.34721 3.65279 10.25 6 10.25C7.30029 10.25 8.4651 9.66587 9.24505 8.74485C9.16377 8.74827 9.08207 8.74999 9 8.74999C5.82436 8.74999 3.25 6.17563 3.25 2.99999C3.25 2.91792 3.25172 2.83623 3.25514 2.75496ZM0.25 6C0.25 3.51072 1.83142 1.39271 4.042 0.592193L5.00256 1.55275C4.83933 2.00347 4.75 2.49047 4.75 2.99999C4.75 5.3472 6.65279 7.24999 9 7.24999C9.50953 7.24999 9.99653 7.16065 10.4473 6.99743L11.4078 7.95798C10.6073 10.1686 8.48929 11.75 6 11.75C2.82436 11.75 0.25 9.17564 0.25 6Z"
+                  fill="currentColor"
+                  transform="translate(2.25, 2.25)"></path>
+              </svg>
+            </label>
+          </span>
+        </fieldset>
+      </div>
+    </header>
+    <main class="container max-w-screen-lg mx-auto px-6">
+      <!-- Hero Section & Chart -->
+      <section
+        class="mt-8 mb-8 border border-neutral-200 dark:border-neutral-700 relative overflow-hidden">
+        <!-- Grid Background -->
+        <div class="absolute inset-0 opacity-30">
+          <div class="grid grid-cols-12 h-full">
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-r border-neutral-300 dark:border-neutral-600"></div>
+          </div>
+          <div class="absolute inset-0 grid grid-rows-8">
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+            <div
+              class="border-b border-neutral-300 dark:border-neutral-600"></div>
+          </div>
+        </div>
+
+        <div class="relative z-10">
+          <div class="flex items-start justify-between mb-6">
+            <!-- Hero -->
+            <div
+              class="bg-neutral-50 dark:bg-black backdrop-blur-sm  p-12 pb-6 max-w-[530px] min-h-[280px] ">
+              <div class="flex flex-col gap-6">
+                <h1
+                  id="title"
+                  class="text-neutral-900 dark:text-neutral-100 text-3xl md:text-3xl font-semibold leading-10">
+                  محاسبه‌گر هوشمند قیمت طلا
+                </h1>
+                <p
+                  id="subtitle"
+                  class="text-neutral-500 dark:text-neutral-400 text-sm md:text-sm font-normal leading-6 md:leading-9">
+                  ابزاری برای محاسبه سریع و دقیق قیمت نهایی طلا با در نظر گرفتن
+                  اجرت، سود و مالیات
+                </p>
+              </div>
+            </div>
+            <div class=" p-12 ">
+              <h3
+                class="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
+                نرخ طلا در یک سال گذشته
+              </h3>
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm">
+                تحلیل روند قیمت طلای 18 عیار
+              </p>
+            </div>
+          </div>
+
+          <div class="h-80 relative">
+            <canvas
+              id="goldPriceChart"
+              class="w-full h-full"
+              aria-label="Gold price chart for one year"></canvas>
+            <!-- Hover Line -->
+            <div
+              id="hoverLine"
+              class="absolute top-0 w-px bg-neutral-600 dark:bg-neutral-400 h-full opacity-0 transition-opacity duration-200 pointer-events-none"></div>
+            <!-- Tooltip -->
+            <div
+              id="chartTooltip"
+              class="absolute bg-neutral-50 dark:bg-neutral-900 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 opacity-0 transition-all duration-200 pointer-events-none z-20">
+              <div class="flex items-center justify-between mb-1 gap-4">
+                <span class="text-neutral-500 dark:text-neutral-400 text-sm"
+                  >قیمت طلا</span
+                >
+                <span
+                  class="text-neutral-900 dark:text-white font-bold"
+                  id="tooltipPrice"
+                  >۱٬۴۲۰٬۰۰۰</span
+                >
+              </div>
+              <div
+                class="text-neutral-500 dark:text-neutral-400 text-xs"
+                id="tooltipDate">
+                آذر
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Stats -->
+          <div
+            class="grid grid-cols-2 md:grid-cols-4 gap-4  p-4 pt-7 bg-neutral-50 dark:bg-neutral-900">
+            <div class="text-center">
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-1">
+                کمترین قیمت
+              </p>
+              <div
+                class="flex items-center justify-center space-x-2 space-x-reverse">
+                <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                <p
+                  class="text-neutral-900 dark:text-white font-bold"
+                  id="minPrice">
+                  ۱٬۱۸۰٬۰۰۰
+                </p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-1">
+                بیشترین قیمت
+              </p>
+              <div
+                class="flex items-center justify-center space-x-2 space-x-reverse">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <p
+                  class="text-neutral-900 dark:text-white font-bold"
+                  id="maxPrice">
+                  ۱٬۵۹۰٬۰۰۰
+                </p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-1">
+                قیمت فعلی
+              </p>
+              <div
+                class="flex items-center justify-center space-x-2 space-x-reverse">
+                <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                <p
+                  class="text-neutral-900 dark:text-white font-bold"
+                  id="currentPrice">
+                  ۱٬۵۹۰٬۰۰۰
+                </p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-1">
+                تغییرات سالانه
+              </p>
+              <div
+                class="flex items-center justify-center space-x-2 space-x-reverse">
+                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <p
+                  class="text-neutral-900 dark:text-white font-bold"
+                  id="monthlyChange">
+                  +32.5%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calculator Section -->
+      <section class="flex flex-col gap-8 mb-8">
+        <!-- Calculator -->
+        <div
+          class="grid md:grid-cols-2 gap-5 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-6 w-full">
+          <div class="text-sm font-normal">
+            <label class="leading-6 mb-2" for="price">
+              <div
+                class="leading-6 mb-2 text-neutral-900 dark:text-neutral-100">
+                نرخ طلا
+              </div>
+            </label>
+            <div class="flex items-center rounded-md relative">
+              <input
+                id="price"
+                class="border border-neutral-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 rounded-md w-full h-10 p-3 focus:outline-none focus:border-black dark:focus:border-neutral-400"
+                type="text"
+                placeholder="" />
+              <span
+                class="unit-label absolute left-3 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-700"
+                >تومان</span
+              >
+            </div>
+          </div>
+          <div class="text-sm font-normal">
+            <label class="leading-6 mb-2" for="weight">
+              <div
+                class="leading-6 mb-2 text-neutral-900 dark:text-neutral-100">
+                وزن طلا
+              </div>
+            </label>
+            <div class="flex items-center rounded-md relative">
+              <input
+                id="weight"
+                class="border border-neutral-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 rounded-md w-full h-10 p-3 focus:outline-none focus:border-black dark:focus:border-neutral-400"
+                type="text"
+                placeholder="0" />
+              <span
+                class="unit-label absolute left-3 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-700"
+                >گرم</span
+              >
+            </div>
+          </div>
+          <div class="text-sm font-normal">
+            <label class="leading-6 mb-2" for="wages">
+              <div
+                class="leading-6 mb-2 text-neutral-900 dark:text-neutral-100">
+                اجرت ساخت
+              </div>
+            </label>
+            <div class="flex items-center rounded-md relative">
+              <input
+                id="wages"
+                class="border border-neutral-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 rounded-md w-full h-10 p-3 focus:outline-none focus:border-black dark:focus:border-neutral-400"
+                type="text"
+                placeholder="" />
+              <span
+                class="unit-label absolute left-3 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-700"
+                >درصد</span
+              >
+            </div>
+          </div>
+          <div class="text-sm font-normal">
+            <label for="profit"
+              ><div
+                class="leading-6 mb-2 text-neutral-900 dark:text-neutral-100">
+                سود فروش
+              </div></label
+            >
+            <div class="flex items-center rounded-md relative">
+              <input
+                id="profit"
+                class="border border-neutral-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 rounded-md w-full h-10 p-3 focus:outline-none focus:border-black dark:focus:border-neutral-400"
+                type="text"
+                placeholder="" />
+              <span
+                class="unit-label absolute left-3 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-700"
+                >درصد</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Result -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Final price -->
+          <div
+            class="relative group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-6 w-full hover:shadow-lg transition-shadow col-span-1 md:col-span-2 lg:col-span-4">
+            <div class="flex items-center justify-between mb-4">
+              <div class="bg-purple-500 rounded-full p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-white">
+                  <path
+                    d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
+                  <path d="M5 21h14" />
+                </svg>
+              </div>
+              <span
+                class="text-xs text-purple-600 bg-purple-200 dark:bg-purple-900 dark:text-purple-300 px-2 py-1 rounded-full"
+                >نهایی</span
+              >
+            </div>
+            <div class="text-right">
+              <p
+                id="final-price"
+                class="text-base font-bold text-neutral-800 dark:text-neutral-100">
+                0
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                قیمت نهایی محصول
+              </p>
+            </div>
+            <div
+              class="absolute inset-0 bg-white/90 dark:bg-neutral-800/90 text-sm text-neutral-800 dark:text-neutral-100 p-4 rounded-xl hidden group-hover:flex flex-col justify-center items-center z-10">
+              <p class="text-center font-medium">
+                قیمت طلا + اجرت ساخت + سود + مالیات
+              </p>
+            </div>
+          </div>
+          <!-- Product gold price -->
+          <div
+            class="relative group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-4 w-full hover:shadow-lg transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="bg-yellow-500 rounded-full p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-5 h-5 text-white">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                  <path d="M12 18V6" />
+                </svg>
+              </div>
+              <span
+                class="text-xs text-yellow-600 bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-300 px-2 py-1 rounded-full"
+                >نرخ × وزن</span
+              >
+            </div>
+            <div class="text-right">
+              <p
+                id="gold-price"
+                class="text-base font-bold text-neutral-800 dark:text-neutral-100">
+                0
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                قیمت طلای محصول
+              </p>
+            </div>
+            <div
+              class="absolute inset-0 bg-white/90 dark:bg-neutral-800/90 text-sm text-neutral-800 dark:text-neutral-100 p-4 rounded-xl hidden group-hover:flex flex-col justify-center items-center z-10">
+              <p class="text-center font-medium">وزن ✕ نرخ روز طلا</p>
+            </div>
+          </div>
+          <!-- Construction wages -->
+          <div
+            class="relative group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-4 w-full hover:shadow-lg transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="bg-blue-500 rounded-full p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-5 h-5 text-white">
+                  <path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9" />
+                  <path d="m18 15 4-4" />
+                  <path
+                    d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5" />
+                </svg>
+              </div>
+              <span
+                id="wage-badge"
+                class="text-xs text-blue-600 bg-blue-200 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full"
+                >18%</span
+              >
+            </div>
+            <div class="text-right">
+              <p
+                id="wage-amount"
+                class="text-base font-bold text-neutral-800 dark:text-neutral-100">
+                0
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                اجرت ساخت
+              </p>
+            </div>
+            <div
+              class="absolute inset-0 bg-white/90 dark:bg-neutral-800/90 text-sm text-neutral-800 dark:text-neutral-100 p-4 rounded-xl hidden group-hover:flex flex-col justify-center items-center z-10">
+              <p class="text-center font-medium">قیمت طلا ✕ 18 %</p>
+            </div>
+          </div>
+          <!-- Sales profit -->
+          <div
+            class="relative group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-4 w-full hover:shadow-lg transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="bg-green-500 rounded-full p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-5 h-5 text-white">
+                  <path d="M16 7h6v6" />
+                  <path d="m22 7-8.5 8.5-5-5L2 17" />
+                </svg>
+              </div>
+              <span
+                id="profit-badge"
+                class="text-xs text-green-600 bg-green-200 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded-full"
+                >7%</span
+              >
+            </div>
+            <div class="text-right">
+              <p
+                id="profit-amount"
+                class="text-base font-bold text-neutral-800 dark:text-neutral-100">
+                0
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                سود فروش طلا
+              </p>
+            </div>
+            <div
+              class="absolute inset-0 bg-white/90 dark:bg-neutral-800/90 text-sm text-neutral-800 dark:text-neutral-100 p-4 rounded-xl hidden group-hover:flex flex-col justify-center items-center z-10">
+              <p class="text-center font-medium">
+                (قیمت طلا + اجرت ساخت) ✕ 7 %
+              </p>
+            </div>
+          </div>
+          <!-- Tax -->
+          <div
+            class="relative group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-md p-4 w-full hover:shadow-lg transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="bg-red-500 rounded-full p-2">
+                <svg
+                  class="w-5 h-5 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span
+                class="text-xs text-red-600 bg-red-200 dark:bg-red-900 dark:text-red-300 px-2 py-1 rounded-full"
+                >9%</span
+              >
+            </div>
+            <div class="text-right">
+              <p
+                id="tax-amount"
+                class="text-base font-bold text-neutral-800 dark:text-neutral-100">
+                0
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                مالیات
+              </p>
+            </div>
+            <div
+              class="absolute inset-0 bg-white/90 dark:bg-neutral-800/90 text-sm text-neutral-800 dark:text-neutral-100 p-4 rounded-xl hidden group-hover:flex flex-col justify-center items-center z-10">
+              <p class="text-center font-medium">
+                (سود فروش طلا + اجرت ساخت) ✕ 9 %
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script type="module" src="/src/js/app.js"></script>
+  </body>
+</html>
